@@ -1,7 +1,7 @@
-# Pull Request: Fix Linux Docker Networking and Add Flexible Port Configuration
+# Pull Request  Fix Linux Docker Networking and Add Flexible Port Configuration
 
 ## Summary
-
+<!-- Provide a brief description of what this PR accomplishes -->
 This PR addresses critical deployment issues on Linux systems and adds flexible port configuration to avoid conflicts with existing services. These changes will help users successfully deploy Archon alongside other applications like Supabase projects and development servers.
 
 ## Problems Solved
@@ -36,7 +36,7 @@ This PR addresses critical deployment issues on Linux systems and adds flexible 
 - Document both isolated and shared network approaches
 
 ## Changes Made
-
+<!-- List the main changes in this PR -->
 ### 1. Updated `docker-compose.yml`
 ```yaml
 # Separated internal and external ports
@@ -87,109 +87,61 @@ ARCHON_UI_PORT=3737      # Change to 4838 if 3737 is in use
 - Updated `README.md` with Linux-specific deployment notes
 - Added network architecture diagrams
 
-## Testing
+## Type of Change
+<!-- Mark the relevant option with an "x" -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Performance improvement
+- [ ] Code refactoring
 
+## Affected Services
+<!-- Mark all that apply with an "x" -->
+- [ ] Frontend (React UI)
+- [ ] Server (FastAPI backend)
+- [ ] MCP Server (Model Context Protocol)
+- [ ] Agents (PydanticAI service)
+- [ ] Database (migrations/schema)
+- [ ] Docker/Infrastructure
+- [ ] Documentation site
+
+## Testing
+<!-- Describe how you tested your changes -->
 Tested on:
 - ✅ Ubuntu 24.04 with Docker 28.3.3
 - ✅ System with existing Supabase local deployment
 - ✅ System with Podman installed (DOCKER_HOST conflict resolved)
 - ✅ Multiple services running on default ports
+- [ ] All existing tests pass
+- [ ] Added new tests for new functionality
+- [X] Manually tested affected user flows
+- [X ] Docker builds succeed for all services
 
+### Test Evidence
+<!-- Provide specific test commands run and their results -->
+```bash
+# Example: python -m pytest tests/
+# Example: cd archon-ui-main && npm run test
+```
 ## Breaking Changes
 
-None - all changes are backward compatible with existing deployments.
 
-## Documentation
-
-- [x] Updated README.md with Linux deployment section
-- [x] Added troubleshooting guide
-- [x] Documented port configuration options
-- [x] Added network architecture explanation
-
-## How This Helps Users
-
-1. **Linux users** can now deploy without manual network debugging
-2. **Developers with multiple projects** can run Archon alongside other services
-3. **Supabase users** can integrate with local Supabase instances
-4. **New users** get clearer error messages and solutions
-
-## Example Use Cases
-
-### Running alongside other services:
-```bash
-# .env
-ARCHON_SERVER_PORT=9282  # Avoid conflict with service on 8181
-ARCHON_UI_PORT=4838      # Avoid conflict with service on 3737
-```
-
-### Integrating with local Supabase:
-```yaml
-# docker-compose.yml
-networks:
-  app-network:
-    external: true
-    name: supabase_default
-```
-
-## Related Issues
-
-Fixes #[issue_number] - Docker networking fails on Linux
-Fixes #[issue_number] - Port conflicts with development tools
-Fixes #[issue_number] - Cannot connect to local Supabase
 
 ## Checklist
+<!-- Mark completed items with an "x" -->
+- [X ] My code follows the service architecture patterns
+- [ ] If using an AI coding assistant, I used the CLAUDE.md rules
+- [ ] I have added tests that prove my fix/feature works
+- [ ] All new and existing tests pass locally
+- [X] My changes generate no new warnings
+- [X ] I have updated relevant documentation
+- [X ] I have verified no regressions in existing features
 
-- [x] Code follows project style guidelines
-- [x] Self-review completed
-- [x] Comments added for complex sections
-- [x] Documentation updated
-- [x] No breaking changes
-- [x] Tested on Linux systems
-- [x] Environment example updated
-
-## Screenshots/Logs
-
-### Before (Connection Timeout):
-```
-httpx.ConnectTimeout: timed out
-ERROR: Application startup failed. Exiting.
-```
-
-### After (Successful Connection):
-```
-INFO: ✅ Credentials initialized
-INFO: 🎉 Archon backend started successfully!
-INFO: Application startup complete.
-```
+## Breaking Changes
+<!-- If this PR introduces breaking changes, describe them here -->
+None - all changes are backward compatible with existing deployments.
 
 ## Additional Notes
-
-These changes make Archon more robust and user-friendly, especially for Linux users and those running multiple development environments. The flexible port configuration ensures Archon can coexist with any existing service setup.
-
-Happy to make any adjustments based on maintainer feedback!
-
----
-
-## Files Changed
-
-1. `docker-compose.yml` - Network and port configuration improvements
-2. `.env.example` - Added port configuration examples
-3. `start_archon.sh` - New startup script (new file)
-4. `DEPLOYMENT_TROUBLESHOOTING.md` - Troubleshooting guide (new file)
-5. `README.md` - Added Linux deployment section
-
-## How to Test This PR
-
-1. Clone the branch
-2. Copy `.env.example` to `.env` and configure ports
-3. Run `./start_archon.sh` 
-4. Verify all services are healthy: `docker compose ps`
-5. Access UI at configured port
-
-## Questions for Maintainers
-
-1. Should we make the startup script executable by default?
-2. Would you prefer network configuration as an environment variable or separate docker-compose files?
-3. Should we add automatic port conflict detection?
-
-Thank you for creating Archon! These improvements will help more users successfully deploy and enjoy this amazing tool. 🚀
+<!-- Any additional information that reviewers should know -->
+<!-- Screenshots, performance metrics, dependencies added, etc. -->
