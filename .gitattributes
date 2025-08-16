@@ -1,0 +1,24 @@
+# Protect local configuration files from merge conflicts
+# These files will keep local version during merges
+docker-compose.yml merge=ours
+docker-compose.override.yml merge=ours
+.env merge=ours
+start_archon.sh merge=ours
+ports.md merge=ours
+AUTOSTART_CONFIG.md merge=ours
+UPDATE_STRATEGY.md merge=ours
+DEPLOYMENT_SUCCESS.md merge=ours
+DEPLOYMENT_TROUBLESHOOTING.md merge=ours
+archon-docker.service merge=ours
+install-autostart.sh merge=ours
+
+# Ensure consistent line endings
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf

@@ -1,0 +1,45 @@
+# Local configuration overrides for Archon
+# This file is automatically loaded by docker-compose
+# It overrides settings in docker-compose.yml without modifying it
+# Add this to .gitignore to keep it local
+
+services:
+  archon-server:
+    ports:
+      - "9282:8181"  # Custom external port
+    environment:
+      - SUPABASE_URL=http://supabase_kong_Archon:8000
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  archon-mcp:
+    ports:
+      - "9151:8051"  # Custom external port
+    environment:
+      - SUPABASE_URL=http://supabase_kong_Archon:8000
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  archon-agents:
+    ports:
+      - "9152:8052"  # Custom external port  
+    environment:
+      - SUPABASE_URL=http://supabase_kong_Archon:8000
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    ports:
+      - "4838:5173"  # Custom external port
+    environment:
+      - VITE_API_URL=http://localhost:9282  # Point to custom API port
+    restart: unless-stopped
+
+# Use existing Supabase network
+networks:
+  app-network:
+    external: true
+    name: supabase_network_Archon

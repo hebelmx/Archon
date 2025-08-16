@@ -1,0 +1,28 @@
+[Unit]
+Description=Archon Docker Compose Application
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Wait for Docker and network to be fully ready
+ExecStartPre=/bin/sleep 10
+# Change to your Archon directory
+WorkingDirectory=/home/abel/projects/Archon/Archon
+# Unset DOCKER_HOST and start containers
+ExecStart=/bin/bash -c 'unset DOCKER_HOST && /usr/bin/docker compose up -d'
+ExecStop=/bin/bash -c 'unset DOCKER_HOST && /usr/bin/docker compose down'
+ExecReload=/bin/bash -c 'unset DOCKER_HOST && /usr/bin/docker compose restart'
+# Restart on failure with delay
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=archon-docker
+User=abel
+Group=docker
+
+[Install]
+WantedBy=multi-user.target
