@@ -19,12 +19,8 @@ docker compose down 2>/dev/null
 
 # Build and start containers
 echo "Building and starting Archon containers..."
-docker compose up --build -d
-
-# Wait for services to be healthy
-echo "Waiting for services to become healthy..."
-sleep 10
-
+# Wait on healthchecks with a configurable timeout (default 120s)
+docker compose up --build -d --wait --wait-timeout "${COMPOSE_WAIT_TIMEOUT:-120}"
 # Check container status
 echo ""
 echo "Container status:"
